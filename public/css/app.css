@@ -21,6 +21,10 @@ th {
 	background-color:#FFB612;
 }
 
+.name {
+	cursor:pointer;
+}
+
 .active {
 	background:#fff;
 }

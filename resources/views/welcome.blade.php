@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Laravel</title>
 
@@ -29,7 +29,7 @@
                           -->
                           <a class="navbar-brand header" href="#">@{{ team.Club_Name }}</a>
                       </div>
-                      <form class="navbar-form navbar-right">
+                      <form class="navbar-form nav navbar-nav navbar-right">
                         <div class="form-group">
                           <input type="text" class="form-control" placeholder="Search" v-model="search">
                         </div>
@@ -60,8 +60,27 @@
                   </div>
                   <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <label>Test</label>adfad
+                      <div class="col-xs-6">
+                        <h3>@{{ player.PositionDescription }}</h1>
+                      </div>
+                      <div class="col-xs-6">
+                          <h3 class="text-right">@{{ player.JerseyNumber }}</h3>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <dl>
+                              <dt>Height</dt>
+                              <dd>@{{ player.Height }}</dd>
+                              <dt>Weight</dt>
+                              <dd>@{{ player.Weight }}</dd>
+                              <dt>College</dt>
+                              <dd>@{{ player.College }}</dd>
+                              <dt>Experience</dt>
+                              <dd>@{{ player.NFLExperience }}</dd>
+                              <dt v-if="player.DraftRound !== null">Draft Pick</dt>
+                              <dd v-if="player.DraftRound !== null">Round @{{ player.DraftRound }} - Overall @{{ player.DraftNumber }}</dd>
+                            </dl>
                         </div>
                     </div>
                   </div>
@@ -76,6 +95,7 @@
 
         <!-- templates -->
         <script type="text/x-template" id="roster">
+          <div class="table-responsive">
             <table class="table table-striped roster">
                 <thead>
                     <tr class="heading">
@@ -101,7 +121,7 @@
                     <tr v-for="player in sortedRoster">
                     <!-- <tr v-for="player in roster"> -->
                         <td>@{{ player.JerseyNumber }}</td>
-                        <td @click="showPlayerModal(player)">@{{ player.LastName }}, @{{ player.FootballName }}</td>
+                        <td @click="showPlayerModal(player)"><a class="name">@{{ player.LastName }}, @{{ player.FootballName }}</a></td>
                         <td>@{{ player.PositionAbbr }}</td>
                         <td>@{{ player.Height }}</td>
                         <td>@{{ player.Weight }}</td>
@@ -111,6 +131,7 @@
                     </tr>
               </tbody>
           </table>
+        </div>
       </script>
 
       <!--
