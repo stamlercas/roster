@@ -50,41 +50,70 @@ update:Ne},Po={create:Re,update:Re},Fo={create:Le,update:Le},qo=u(function(t){va
 
 
 $(document).ready(function() {
-    
+
+	var bus = new Vue();
+
     /*
-    Vue.component('modal', {
-        props: ['message'],
-        template: '#modal-template'
-    })
+     * Component to display roster.  Includes filtering and sorting
     */
-
-    /* maybe later
-    Vue.component('question-container', {
-        props: ['question'],
-        template: '#question-container'
-    })
-    */
-
-    Vue.component('roster-item', {
-        props: ['player'],
-        template: '#roster-item',
-        computed:
-        	{
-	        	age: function() {
-	        		var startTime = this.player.Birthdate.substring(this.player.Birthdate.indexOf("/Date("), this.player.Birthdate.indexOf("(/"));
-	        		console.log(startTime);
-					var currentTime = new Date().getTime();
-
-					return currentTime - startTime/Math.floor(1000 * 60 * 60 * 24 * 365);
-	        	}
+    Vue.component('roster', {
+		template: '#roster',
+			props: {
+			data: Array,
+			columns: Array,
+			filterKey: String
+		},
+		data: function () {
+			var sortOrders = {}
+			this.columns.forEach(function (key) {
+			  sortOrders[key] = 1
+			});
+			return {
+			  sortKey: '',
+			  sortOrders: sortOrders
+			};
+		},
+		computed: {
+			sortedRoster: function () {
+			  var sortKey = this.sortKey;
+			  var filterKey = this.filterKey && this.filterKey.toLowerCase();
+			  var order = this.sortOrders[sortKey] || 1;
+			  var data = this.data;
+			  if (filterKey) {
+			    data = data.filter(function (row) {
+			      return Object.keys(row).some(function (key) {
+			        return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+			      });
+			    });
+			  }
+			  if (sortKey) {
+			    data = data.slice().sort(function (a, b) {
+			      a = a[sortKey];
+			      b = b[sortKey];
+			      return (a === b ? 0 : a > b ? 1 : -1) * order
+			    });
+			  }
+			  return data;
+			}
+		},
+		filters: {
+			getAge: function(date) {
+        		var date = new Date(parseInt(date.substr(6)));
+        		var ageDiff = Date.now() - date;
+			    var ageDate = new Date(ageDiff); // miliseconds from epoch
+			    return Math.abs(ageDate.getUTCFullYear() - 1970);
         	}
-        })
-    
-    /*
-    Vue.component('loading', {
-        template: '#loading-modal'
-    })
-    */
+		},
+		methods: {
+			sortBy: function (key) {
+			  this.sortKey = key;
+			  this.sortOrders[key] = this.sortOrders[key] * -1;
+			},
+			showPlayerModal: function(player) {
+				bus.$emit("showModal", player);
+			}
+		}
+	})
 
 
 
@@ -92,20 +121,36 @@ $(document).ready(function() {
         // div to target
         el: '#app',
         data: {
-        	team: {
-
-        	},
-        	roster: []
+        	columns: [
+        		'JerseyNumber',
+        		'LastName',
+        		'PositionAbbr',
+        		'Height',
+        		'Weight',
+        		'Birthdate',
+        		'College',
+        		'NFLExperience'
+        	],
+        	team: {},
+        	roster: [],
+        	search: '',
+        	player: {}
         },
         created: function() {
+        	bus.$on('showModal', this.showPlayerModal);
             this.getData();
         },
         methods: {
         	getData: function() {
         		this.$http.get('/roster').then((response) => {
-        			this.team = response.body.Team;
+        			this.team = response.body.Team[0];
         			this.roster = response.body.Roster;
         		});
+        	},
+        	showPlayerModal: function(player) {
+        		this.player = player;
+        		console.log(this.player);
+        		$('#playerModal').modal('show');
         	}
         }
     });
