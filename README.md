@@ -6,3 +6,8 @@ Run the following commands:
 php artisan key:generate
 composer install
 ```
+To start a server, run
+```
+php artisan serve
+```
+from the project directory.
