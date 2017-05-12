@@ -102,6 +102,9 @@ $(document).ready(function() {
         		var ageDiff = Date.now() - date;
 			    var ageDate = new Date(ageDiff); // miliseconds from epoch
 			    return Math.abs(ageDate.getUTCFullYear() - 1970);
+        	},
+        	formatNumber: function($number) {
+        		return ($number == 0) ? '' : $number;
         	}
 		},
 		methods: {
@@ -122,35 +125,55 @@ $(document).ready(function() {
         el: '#app',
         data: {
         	columns: [
-        		'JerseyNumber',
         		'LastName',
-        		'PositionAbbr',
+        		'Number',
+        		'Position',
         		'Height',
         		'Weight',
-        		'Birthdate',
+        		'Age',
         		'College',
-        		'NFLExperience'
+        		'Experience'
         	],
-        	team: {},
+        	teams: [
+        		{
+        			TeamName: ''
+        		}
+        	],
+        	currentTeam: 0,
         	roster: [],
         	search: '',
-        	player: {}
+        	player: {},
+        	loading: true
         },
         created: function() {
-        	bus.$on('showModal', this.showPlayerModal);
-            this.getData();
+            this.initData();
+            bus.$on('showModal', this.showPlayerModal);
         },
         methods: {
-        	getData: function() {
-        		this.$http.get('/roster').then((response) => {
-        			this.team = response.body.Team[0];
-        			this.roster = response.body.Roster;
+        	initData: function() {
+        		this.$http.get('/teams').then((response) => {
+        			this.teams = response.body;
+        		}).then(function() {
+        			this.getRoster('ARI');
+        			console.log(this.roster);
+        		});
+        		
+        	},
+        	getRoster: function($team) {
+        		this.loading = true;
+        		this.$http.get('/roster/' + $team).then((response) => {
+        			this.roster = response.body;
+        			this.loading = false;
         		});
         	},
         	showPlayerModal: function(player) {
         		this.player = player;
         		console.log(this.player);
         		$('#playerModal').modal('show');
+        	},
+        	changeTeam: function(index) {
+        		this.currentTeam = index;
+        		this.getRoster(this.teams[this.currentTeam].Team)
         	}
         }
     });

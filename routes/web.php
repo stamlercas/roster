@@ -18,3 +18,11 @@ Route::get('/roster', [
     'uses' => 'RosterController@getRoster',
     'as' => 'roster.get'
 ]);
+Route::get('/roster/{team}', [
+    'uses' => 'RosterController@getFantasyDataTeamData',
+    'as' => 'roster.team'
+]);
+Route::get('/teams', [
+	'uses' => 'RosterController@getFantasyDataTeams',
+	'as' => 'roster.teams'
+]);
