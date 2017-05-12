@@ -6,5 +6,8 @@ Run the following commands:
 php artisan key:generate
 composer install
 ```
-
-Then, put the data.json file in storage/app/json
+To start a server, run
+```
+php artisan serve
+```
+from the project directory.
