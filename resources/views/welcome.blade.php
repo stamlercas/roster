@@ -8,8 +8,6 @@
         <title>Laravel</title>
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
-
-        <script src="https://cdn.jsdelivr.net/vue.resource/1.3.1/vue-resource.min.js"></script>
         <script src="{{ asset('js/app.js') }}"></script>
 
     </head>
@@ -48,7 +46,7 @@
             </header>
 
             <div class="container main-content">
-                <h1 @click="console.log(player)">@{{ team.Season }} Roster</h1>
+                <h1>@{{ team.Season }} Roster</h1>
                 <roster :data="roster" :columns="columns" :filter-key="search"></roster>
             </div>
             <div class="modal fade" id="playerModal" tabindex="-1" role="dialog">
@@ -64,7 +62,7 @@
                         <h3>@{{ player.PositionDescription }}</h1>
                       </div>
                       <div class="col-xs-6">
-                          <h3 class="text-right">@{{ player.JerseyNumber }}</h3>
+                          <h3 class="text-right"><small>#</small>@{{ player.JerseyNumber }}</h3>
                       </div>
                     </div>
                     <div class="row">
@@ -86,7 +84,6 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                   </div>
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
