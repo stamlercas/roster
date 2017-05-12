@@ -155,25 +155,3 @@ $(document).ready(function() {
         }
     });
 });
-
-function replaceAllBackSlash(targetStr){
-    var index=targetStr.indexOf("\\");
-    while(index >= 0){
-        targetStr=targetStr.replace("\\","");
-        index=targetStr.indexOf("\\");
-    }
-    return targetStr;
-}
-
-/*
-* checks whether a questions value mathces the values given
-*/
-function matchesQuestionValue(question, values)
-{
-    for (var i = 0; i < values.length; i++)
-    {
-        if (question.value == values[i])
-            return true;
-    }
-    return false;
-}

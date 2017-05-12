@@ -47,7 +47,17 @@
 
             <div class="container main-content">
                 <h1>@{{ team.Season }} Roster</h1>
-                <roster :data="roster" :columns="columns" :filter-key="search"></roster>
+                <div class="row">
+                  <div class="col-md-9">
+                    <roster :data="roster" :columns="columns" :filter-key="search"></roster>
+                  </div>
+                  <div class="col-md-3 hidden-sm hidden-xs">
+                      <dl>
+                        <dt>Team</dt>
+                        <dd>@{{ team.Club_Name }}</dd>
+                      </dl>
+                  </div>
+                </div>
             </div>
             <div class="modal fade" id="playerModal" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
@@ -62,7 +72,7 @@
                         <h3>@{{ player.PositionDescription }}</h1>
                       </div>
                       <div class="col-xs-6">
-                          <h3 class="text-right"><small>#</small>@{{ player.JerseyNumber }}</h3>
+                          <h3 class="text-right"><small v-if="player.JerseyNumber !== null">#</small>@{{ player.JerseyNumber }}</h3>
                       </div>
                     </div>
                     <div class="row">
@@ -76,6 +86,8 @@
                               <dd>@{{ player.College }}</dd>
                               <dt>Experience</dt>
                               <dd>@{{ player.NFLExperience }}</dd>
+                              <dt>Entry Year</dt>
+                              <dd>@{{ player.EntryYear }}</dd>
                               <dt v-if="player.DraftRound !== null">Draft Pick</dt>
                               <dd v-if="player.DraftRound !== null">Round @{{ player.DraftRound }} - Overall @{{ player.DraftNumber }}</dd>
                             </dl>

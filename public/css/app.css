@@ -32,6 +32,15 @@ th {
 	background-color:#fff;
 }
 
+.affix-top {
+    /* Initial items */
+}
+
+.affix {
+    top:20px;
+    position:fixed;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
