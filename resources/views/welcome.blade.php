@@ -7,8 +7,8 @@
 
         <title>Laravel</title>
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
-        <script src="{{ asset('js/app.js') }}"></script>
+        <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ URL::asset('js/app.js') }}"></script>
 
     </head>
     <body>
