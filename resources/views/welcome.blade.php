@@ -9,6 +9,7 @@
 
         <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/logo.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/table.css') }}" rel="stylesheet" />
         <style>
           .logo {
             background: url("{{ asset('img/logos.png') }}") no-repeat;
@@ -86,7 +87,7 @@
                   <img class="loading img img-responsive" src="{{ asset('img/loading.gif') }}" alt="spinner" />
                   </div>
                 </div>
-                <roster :data="roster" :columns="columns" :filter-key="search" v-if="!loading"></roster>
+                <roster :data="roster" :columns="columns" :filter-key="search" :team="teams[currentTeam].TeamName" v-if="!loading"></roster>
             </div>
             <div class="modal fade" id="playerModal" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
@@ -105,7 +106,7 @@
                       </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-xs-4">
                             <dl>
                               <dt>Height</dt>
                               <dd>@{{ player.Height }}</dd>
@@ -121,7 +122,7 @@
                               <dd v-if="player.CollegeDraftRound !== null">Round @{{ player.CollegeDraftRound }} - Overall @{{ player.CollegeDraftPick }}</dd>
                             </dl>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-xs-8">
                           <div class="clearfix">
                             <img class="img img-responsive pull-right" v-bind:src="player.PhotoUrl" />
                           </div>
@@ -137,8 +138,10 @@
                     <div class="table-responsive">
                         <table class="table table-striped roster">
                             <thead>
-                                <tr class="heading">
-                                  <th v-for="stat in stats" :title="stat.StatString">@{{ stat.StatAbbr.toUpperCase() }}</th>
+                                <tr>
+                                  <th :class="teams[currentTeam].TeamName.toLowerCase() + '-heading'" v-for="stat in stats" :title="stat.StatString">
+                                    @{{ stat.StatAbbr.toUpperCase() }}
+                                  </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -163,22 +166,22 @@
           <div class="table-responsive">
             <table class="table table-striped roster">
                 <thead>
-                    <tr class="heading">
-                        <th @click="sortBy('Number')" :class="{ active: sortKey == 'Number' }"
+                    <tr>
+                        <th @click="sortBy('Number')" :class="tableHeading('Number')"
                             title="#">#</th>
-                        <th @click="sortBy('LastName')" :class="{ active: sortKey == 'LastName' }"
+                        <th @click="sortBy('LastName')" :class="tableHeading('LastName')"
                             title="Last Name, First Name">Name</th>
-                        <th @click="sortBy('Position')" :class="{ active: sortKey == 'Position' }"
+                        <th @click="sortBy('Position')" :class="tableHeading('Position')"
                             title="Position">Position</th>
-                        <th @click="sortBy('Height')" :class="{ active: sortKey == 'Height' }"
+                        <th @click="sortBy('Height')" :class="tableHeading('Height')"
                             title="Height">Height</th>
-                        <th @click="sortBy('Weight')" :class="{ active: sortKey == 'Weight' }"
+                        <th @click="sortBy('Weight')" :class="tableHeading('Weight')"
                             title="Weight">Weight</th>
-                        <th @click="sortBy('Age')" :class="{ active: sortKey == 'Age' }"
+                        <th @click="sortBy('Age')" :class="tableHeading('Age')"
                             title="Birthdate">Age</th>
-                        <th @click="sortBy('Experience')"  :class="{ active: sortKey == 'Experience' }" 
+                        <th @click="sortBy('Experience')"  :class="tableHeading('Experience')" 
                             title="Years of Experience">Exp</th>
-                        <th @click="sortBy('College')" :class="{ active: sortKey == 'College' }"
+                        <th @click="sortBy('College')" :class="tableHeading('College')"
                             title="College">College</th>
                     </tr>
                 </thead>

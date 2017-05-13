@@ -23,6 +23,7 @@ th {
 
 .active {
 	background:#fff;
+	color:#000;
 }
 
 .list-item, .name {

@@ -61,7 +61,8 @@ $(document).ready(function() {
 			props: {
 			data: Array,
 			columns: Array,
-			filterKey: String
+			filterKey: String,
+			team: String
 		},
 		data: function () {
 			var sortOrders = {}
@@ -114,6 +115,9 @@ $(document).ready(function() {
 			},
 			showPlayerModal: function(player) {
 				bus.$emit("showModal", player);
+			},
+			tableHeading: function(key) {
+				return (this.sortKey == key) ? 'active' : this.team.toLowerCase() + '-heading';
 			}
 		}
 	})
@@ -499,6 +503,26 @@ $(document).ready(function() {
 	        						Stat: player.PlayerSeason.FumblesLost.toFixed(0)
 	        					}
 	    					];
+    					case "C":
+    					case "G":
+    						return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					}
+
+        					];
 	        		}
 	        	}
         	}
