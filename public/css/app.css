@@ -25,7 +25,7 @@ th {
 	background:#fff;
 }
 
-.list-item {
+.list-item, .name {
 	cursor:pointer;
 }
 

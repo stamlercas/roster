@@ -7,7 +7,24 @@
 
         <title>Pittsburgh Steelers Roster Project</title>
 
-        <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/logo.css') }}" rel="stylesheet" />
+        <style>
+          .logo {
+            background: url("{{ asset('img/logos.png') }}") no-repeat;
+            display: inline-block;
+            /*padding: 4px 0 0 0; */
+            border: 0;
+            border-radius: 0;
+            text-align: left;
+            min-width: 20px;
+            height: 16px;
+            text-indent: 27px;
+            text-align: left;
+            vertical-align: middle;
+            height: 20px;
+          }
+        </style>
         <script src="{{ URL::asset('js/app.js') }}"></script>
 
     </head>
@@ -27,23 +44,27 @@
                           -->
                           <div class="dropdown form-group">
                               <button class="form-control btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                                <span class="logo" :class="teams[currentTeam].TeamName.toLowerCase()"></span>&nbsp; 
                                 @{{ teams[currentTeam].TeamName }}
                                 <span class="caret"></span>
                               </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                               <li role="presentation">
                                 <a role="menuitem" tabindex="-1" class="list-item" v-for="(team, index) in teams" @click="changeTeam(index)">
-                                @{{ team.TeamName }}
+                                  <span>
+                                    <span class="logo" :class="team.TeamName.toLowerCase()"></span>&nbsp; 
+                                    @{{ team.TeamName }}
+                                  </span>
                                 </a>
                               </li>
                             </ul>
                           </div>
                       </div>
-                      <form class="navbar-form nav navbar-nav navbar-right">
+                      <div class="navbar-form nav navbar-nav navbar-right">
                         <div class="form-group">
                           <input type="text" class="form-control" placeholder="Search" v-model="search">
                         </div>
-                      </form>
+                      </div>
                       <!--
                         <ul id='navbar-right' class="nav navbar-nav navbar-right">
                             <li><a>Filter</a></li>
@@ -59,7 +80,7 @@
 
             <div class="container main-content">
                 <h1 v-if="!loading">Current Roster</h1>
-                <h1 v-if="loading">Loading...</h1>
+                <h1 v-if="loading">Loading @{{ teams[currentTeam].TeamName }} Roster...</h1>
                 <roster :data="roster" :columns="columns" :filter-key="search" v-if="!loading"></roster>
             </div>
             <div class="modal fade" id="playerModal" tabindex="-1" role="dialog">
@@ -75,7 +96,7 @@
                         <h3>@{{ player.Position }}</h1>
                       </div>
                       <div class="col-xs-6">
-                          <h3 class="text-right"><small v-if="player.JerseyNumber !== 0">#</small>@{{ player.Number }}</h3>
+                          <h3 class="text-right" v-if="player.Number != 0"><small>#</small>@{{ player.Number }}</h3>
                       </div>
                     </div>
                     <div class="row">
@@ -106,6 +127,22 @@
                             </article>
                           </div>
                         </div>
+                    </div>
+                    <div v-if="player.PlayerSeason != null">@{{ player.PlayerSeason.Season }} Stats</div>
+                    <div class="table-responsive">
+                        <table class="table table-striped roster">
+                            <thead>
+                                <tr class="heading">
+                                  <th v-for="stat in stats" :title="stat.StatString">@{{ stat.StatAbbr.toUpperCase() }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <!-- <tr v-for="player in roster"> -->
+                                    <td v-for="stat in stats">@{{ stat.Stat }}</td>
+                                </tr>
+                          </tbody>
+                      </table>
                     </div>
                   </div>
                   <div class="modal-footer">

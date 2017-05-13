@@ -175,6 +175,333 @@ $(document).ready(function() {
         		this.currentTeam = index;
         		this.getRoster(this.teams[this.currentTeam].Team)
         	}
+        },
+        computed: {
+        	stats: function() {
+        		if (typeof this.player != 'undefined') {
+        			if (this.player.PlayerSeason == null) return;
+        			var player = this.player;
+	        		switch(player.Position) {
+	        			case "CB":
+	        			case "DE":
+	        			case "DT":
+	        			case "ILB":
+	        			case "OLB":
+	        			case "FS":
+	        			case "LS":
+	        			case "SS":
+	        			case "NT":
+	        				return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'Total', 
+	        						StatString: 'Total', 
+	        						Stat: player.PlayerSeason.Played 
+	        							+ player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'Solo', 
+	        						StatString: 'Solo Tackles', 
+	        						Stat: player.PlayerSeason.SoloTackles
+	        					},
+	        					{
+	        						StatAbbr: 'Ast', 
+	        						StatString: 'Assisted Tackles', 
+	        						Stat: player.PlayerSeason.AssistedTackles
+	        					},
+	        					{
+	        						StatAbbr: 'Sck', 
+	        						StatString: 'Sacks', 
+	        						Stat: player.PlayerSeason.Sacks
+	        					},
+	        					{
+	        						StatAbbr: 'Sfty', 
+	        						StatString: 'Safties', 
+	        						Stat: player.PlayerSeason.Safeties
+	        					},
+	        					{
+	        						StatAbbr: 'Pdef', 
+	        						StatString: 'Passes Defended', 
+	        						Stat: player.PlayerSeason.PassesDefended
+	        					},
+	        					{
+	        						StatAbbr: 'Int', 
+	        						StatString: 'Interceptions', 
+	        						Stat: player.PlayerSeason.Interceptions
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Interception Return Yards', 
+	        						Stat: player.PlayerSeason.InterceptionReturnYards
+	        					}
+	    					];
+    					case "FB":
+    					case "RB":
+    					case "TE":
+    					case "WR":
+    						return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'Att', 
+	        						StatString: 'Rushing Attempts', 
+	        						Stat: player.PlayerSeason.RushingAttempts
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Rushing Yards', 
+	        						Stat: player.PlayerSeason.RushingYards
+	        					},
+	        					{
+	        						StatAbbr: 'TD', 
+	        						StatString: 'Rushing Touchdowns', 
+	        						Stat: player.PlayerSeason.RushingTouchdowns
+	        					},
+	        					{
+	        						StatAbbr: 'Rec', 
+	        						StatString: 'Receptions', 
+	        						Stat: player.PlayerSeason.Receptions
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Receiving Yards', 
+	        						Stat: player.PlayerSeason.ReceivingYards
+	        					},
+	        					{
+	        						StatAbbr: 'TD', 
+	        						StatString: 'Receiving Touchdowns', 
+	        						Stat: player.PlayerSeason.ReceivingTouchdowns
+	        					},
+	        					{
+	        						StatAbbr: 'Fum', 
+	        						StatString: 'Fumbles', 
+	        						Stat: player.PlayerSeason.Fumbles
+	        					},
+	        					{
+	        						StatAbbr: 'Lost', 
+	        						StatString: 'Fumbles Lost', 
+	        						Stat: player.PlayerSeason.FumblesLost
+	        					},
+	    					];
+    					case "K":
+    						return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'BLK', 
+	        						StatString: 'Field Goals Had Blocked', 
+	        						Stat: player.PlayerSeason.FieldGoalsHadBlocked.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Lng', 
+	        						StatString: 'Longest Field Goal', 
+	        						Stat: player.PlayerSeason.FieldGoalsLongestMade
+	        					},
+	        					{
+	        						StatAbbr: 'Att', 
+	        						StatString: 'Field Goals Attempted', 
+	        						Stat: player.PlayerSeason.FieldGoalsAttempted.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'FGM', 
+	        						StatString: 'Field Goals Made', 
+	        						Stat: player.PlayerSeason.FieldGoalsMade.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: '%', 
+	        						StatString: 'Field Goal Percentage', 
+	        						Stat: player.PlayerSeason.FieldGoalPercentage
+	        					},
+	        					{
+	        						StatAbbr: 'XP Att', 
+	        						StatString: 'Extra Points Attempted', 
+	        						Stat: player.PlayerSeason.ExtraPointsAttempted
+	        					},
+	        					{
+	        						StatAbbr: 'XPM', 
+	        						StatString: 'Extra Points Made', 
+	        						Stat: player.PlayerSeason.ExtraPointsMade
+	        					}
+	    					];
+    					case "P":
+    						return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'Punts', 
+	        						StatString: 'Punts', 
+	        						Stat: player.PlayerSeason.Punts.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Punt Yards', 
+	        						Stat: player.PlayerSeason.PuntYards.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Lng', 
+	        						StatString: 'Punt Long', 
+	        						Stat: player.PlayerSeason.PuntLong.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Avg', 
+	        						StatString: 'Average Punt', 
+	        						Stat: player.PlayerSeason.PuntAverage.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'I20', 
+	        						StatString: 'Inside 20', 
+	        						Stat: player.PlayerSeason.PuntInside20.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'TB', 
+	        						StatString: 'Punt Touchbacks', 
+	        						Stat: player.PlayerSeason.PuntTouchbacks.toFixed(0)
+	        					}
+	    					];
+    					case "QB":
+    						return [
+	        					{
+	        						StatAbbr: 'Team', 
+	        						StatString: 'Team', 
+	        						Stat: player.PlayerSeason.Team
+	        					},
+	        					{
+	        						StatAbbr: 'G', 
+	        						StatString: 'Games', 
+	        						Stat: player.PlayerSeason.Played
+	        					},
+	        					{
+	        						StatAbbr: 'GS', 
+	        						StatString: 'Games Started', 
+	        						Stat: player.PlayerSeason.Started
+	        					},
+	        					{
+	        						StatAbbr: 'Comp', 
+	        						StatString: 'Passing Completions', 
+	        						Stat: player.PlayerSeason.PassingCompletion
+	        					},
+	        					{
+	        						StatAbbr: 'Att', 
+	        						StatString: 'Passing Attempts', 
+	        						Stat: player.PlayerSeason.PassingAttempts.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Passing Yards', 
+	        						Stat: player.PlayerSeason.PassingYards.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Avg', 
+	        						StatString: 'Average Per Passing Attempt', 
+	        						Stat: player.PlayerSeason.PassingYardsPerAttempt.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'TD', 
+	        						StatString: 'Passing Touchdowns', 
+	        						Stat: player.PlayerSeason.PassingTouchdowns.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Int', 
+	        						StatString: 'Passing Interceptions', 
+	        						Stat: player.PlayerSeason.PassingInterceptions.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Sck', 
+	        						StatString: 'Passing Sacks', 
+	        						Stat: player.PlayerSeason.PassingSacks.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Scky', 
+	        						StatString: 'Passing Sack Yards', 
+	        						Stat: player.PlayerSeason.PassingSackYards.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Att', 
+	        						StatString: 'Rushing Attempts', 
+	        						Stat: player.PlayerSeason.RushingAttempts
+	        					},
+	        					{
+	        						StatAbbr: 'Yds', 
+	        						StatString: 'Rushing Yards', 
+	        						Stat: player.PlayerSeason.RushingYards.toFixed(0)
+	        					},
+	        					{
+	        						StatAbbr: 'Avg', 
+	        						StatString: 'Rushing Yards Per Attempt', 
+	        						Stat: player.PlayerSeason.RushingYardsPerAttempt
+	        					},
+	        					{
+	        						StatAbbr: 'TD', 
+	        						StatString: 'Rushing Touchdowns', 
+	        						Stat: player.PlayerSeason.RushingTouchdowns
+	        					},
+	        					{
+	        						StatAbbr: 'Fum', 
+	        						StatString: 'Fumbles', 
+	        						Stat: player.PlayerSeason.Fumbles
+	        					},
+	        					{
+	        						StatAbbr: 'Lost', 
+	        						StatString: 'FumblesLost', 
+	        						Stat: player.PlayerSeason.FumblesLost.toFixed(0)
+	        					}
+	    					];
+	        		}
+	        	}
+        	}
         }
     });
 });
