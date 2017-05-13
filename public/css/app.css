@@ -29,6 +29,10 @@ th {
 	cursor:pointer;
 }
 
+.loading {
+	margin:0 auto;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;

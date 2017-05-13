@@ -80,7 +80,12 @@
 
             <div class="container main-content">
                 <h1 v-if="!loading">Current Roster</h1>
-                <h1 v-if="loading">Loading @{{ teams[currentTeam].TeamName }} Roster...</h1>
+                <div class="row" v-if="loading">
+                  <div class="col-md-12">
+                  <h1 v-if="loading">Loading @{{ teams[currentTeam].TeamName }} Roster...</h1>
+                  <img class="loading img img-responsive" src="{{ asset('img/loading.gif') }}" alt="spinner" />
+                  </div>
+                </div>
                 <roster :data="roster" :columns="columns" :filter-key="search" v-if="!loading"></roster>
             </div>
             <div class="modal fade" id="playerModal" tabindex="-1" role="dialog">
