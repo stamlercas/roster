@@ -1,3 +1,5 @@
+Note: This app will not work in Internet Explorer.
+
 ## Setup
 Rename "env.example" to ".env"
 
